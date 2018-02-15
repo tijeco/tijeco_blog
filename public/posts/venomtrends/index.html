@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		 
+			
+  
+    <meta name="twitter:card" content="summary"/>
+    
+      <meta name="twitter:image" content="/images/avatar.png" />
+    
+  
+  
+  <meta name="twitter:title" content="Popularity of venom"/>
+  <meta name="twitter:description" content="Is Venom just a fad?"/>
+  
+    <meta name="twitter:site" content="@wandering_jeff"/>
+  
+  
+  
+  
+    <meta name="twitter:creator" content="@tijeco"/>
+  
+
+
+
+		
+		<meta name="author" content="tijeco">
+		<meta name="description" content="bioinformatics blog">
+		<meta name="generator" content="Hugo 0.33" />
+		<title>Popularity of venom &middot; tijeco</title>
+		<link rel="shortcut icon" href="/images/favicon.ico">
+		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/highlight.css">
+
+		
+		<link rel="stylesheet" href="/css/font-awesome.min.css">
+		
+
+		
+		<link href="/index.xml" rel="alternate" type="application/rss+xml" title="tijeco" />
+		
+
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='/'> <span class="arrow">←</span>Home</a>
+	
+	<a href='/posts'>Archive</a>
+	<a href='/tags'>Tags</a>
+	
+
+	
+
+	
+	<a class="cta" href="/index.xml">Subscribe</a>
+	
+</nav>
+
+
+        <section id="wrapper" class="post">
+            <article>
+                <header>
+                    <h1>
+                        Popularity of venom
+                    </h1>
+                    <h2 class="headline">
+                    Jan 20, 2018 00:00
+                    · 656 words
+                    · 4 minute read
+                      <span class="tags">
+                      
+                      
+                          
+                              <a href="/tags/tutorial">tutorial</a>
+                          
+                              <a href="/tags/bioinformatics">bioinformatics</a>
+                          
+                              <a href="/tags/molecular-evolution">molecular evolution</a>
+                          
+                      
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                  
+                    <div id="toc">
+                      <nav id="TableOfContents">
+<ul>
+<li><a href="#what-is-venom">What is venom?</a></li>
+<li><a href="#what-has-been-called-venom">What has been called venom?</a>
+<ul>
+<li><a href="#why-so-few-venoms-described">Why so few venoms described?</a></li>
+</ul></li>
+<li><a href="#get-the-data">Get the data</a></li>
+<li><a href="#prepare-data">Prepare data</a></li>
+<li><a href="#make-a-plot">Make a plot</a></li>
+</ul>
+</nav>
+                    </div>
+                  
+                
+                <section id="post-body">
+                    <p>For a while now I have been enamored by the question of &ldquo;what is venom?&rdquo; It is a fairly nuanced question that will undoubtebly have a nuanced answer, but today I have decided to describe  trends in what has been called a &ldquo;venom&rdquo; to this date.</p>
+
+<p></p>
+
+<h1 id="what-is-venom">What is venom?</h1>
+
+<p>Well this question is a bit too deep and philosophical for me to have any interest in diving to it at this point in time, but suffice it to say, it&rsquo;s complicated. Perhaps we can move on to a slightly more manageable question.</p>
+
+<h1 id="what-has-been-called-venom">What has been called venom?</h1>
+
+<p>ALright, maybe I can tackle that a little bit better. Just for clarification, when I talk about &ldquo;venom&rdquo;,  I actually mean venom proteins d not the whole of venom. So what <em>proteins</em> have been characterized as venom proteins? Currently, UniProt is the end-all-be-all for fully describing the properties of a given protein through vigorous amounts of testing and verification. Over 5,000 proteins have been verified to be venom proteins.</p>
+
+<h2 id="why-so-few-venoms-described">Why so few venoms described?</h2>
+
+<p>The small number of described venoms has always disturbed me. It&rsquo;s such a diverse trait found among numerous phyla of animals, so I would expect there to be upwards to millions of actual venom proteins in the animal kingdom. The bottleneck here seems to be the verification/annotation step. It&rsquo;s fairly easy to determine the sequence of a protein, but much less easy determine what the damn thing actually does. So that leaves us with the situation we are in now, too much data then we know what to do with. Venom gland transcriptomes with thousands of putative venom protein sequences are coming out each month, yet it doesn&rsquo;t appear that efforts in describing these sequences in Uniprot is catching up.</p>
+
+<p>So I decided to test my suspicion that venom protein annotation is not on the rise lately. I downloaded metadata for sequences from Uniprot that are verified to be venom and plotted the number of sequences that have been verified each year.</p>
+
+<p>The data I used is available <a href="http://blog.tijeco.info/data/venom.txt">here</a>.
+R scripts to generate the plot will be included as I go through them. Data includes two columns of years that correspond to the year that a venom protein was either first uploaded or last modified.</p>
+
+<h1 id="get-the-data">Get the data</h1>
+
+<p>We just need to load up the data and take a quick look at it.</p>
+
+<pre><code class="language-r">library(tidyverse)
+venom_dates &lt;- read.table(&quot;data/venom.txt&quot;,header = T)
+</code></pre>
+
+<pre><code class="language-r">summary(venom_dates)
+</code></pre>
+
+<p>It&rsquo;s interesting that entries go back as far as 1986!</p>
+
+<h1 id="prepare-data">Prepare data</h1>
+
+<p>Now we just need to do some minor adjustments to the data to prepare it for plotting. Since the data is literally just a list of years, it is best that we convert it to a table describing the frequncies that each year occured. This will correspond to number of venom proteins uploaded in a given year.</p>
+
+<p>The other lines is probably a bit clunky, but it gets the job done, in a somewhat concise matter.</p>
+
+<pre><code class="language-r"> modified &lt;- as.data.frame(table(venom_dates$modified))
+modified$Var1 = as.numeric(as.character(modified$Var1))
+created &lt;- as.data.frame(table(venom_dates$created))
+created$Var1 = as.numeric(as.character(created$Var1))
+venom_dates &lt;- data.frame(modified$Var1,modified$Freq,created$Var1,created$Freq)
+colnames(venom_dates) &lt;- c(&quot;yearMod&quot;,&quot;numMod&quot;,&quot;year&quot;,&quot;verified&quot;)
+</code></pre>
+
+<h1 id="make-a-plot">Make a plot</h1>
+
+<p>Let&rsquo;s throw this into ggplot and see what happens!</p>
+
+<pre><code class="language-r">ggplot(data = venom_dates)+
+  geom_smooth(mapping = aes(x = year, y = verified),se=F)+
+  geom_smooth(mapping = aes(x = yearMod, y = numMod),colour=&quot;red&quot;,se=F)
+  
+</code></pre>
+
+<p>It seems that there was a nice uptick around 2010. I&rsquo;d imagine life was great for venom biologists at that time. They would probably make this graph and optimistically think that venom annotation is on the rise! Well unfortunately here in the future things aren&rsquo;t as peachy. There has been a sharp downward trend in the number of verified venom sequences in the past seven years.</p>
+
+<p>I&rsquo;ll say this definitely isn&rsquo;t the chart I wanted to see. Optimistically this baby would be flying through the roof nearly exponentially! But it doesn&rsquo;t seem to be doing that. At least not yet! This only reminds me that there is plenty more work to be done, so I will remain optimistic.</p>
+                </section>
+            </article>
+
+            
+                <a class="twitter" href="https://twitter.com/intent/tweet?text=%2fposts%2fvenomtrends%2f - Popularity%20of%20venom by @wandering_jeff"><span class="icon-twitter"> tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+            
+
+            
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'blog-tijeco-info'; 
+
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+            
+
+            
+
+            
+        </section>
+        <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    <a class="symbol" href="https://www.facebook.com/nodejh">
+        <i class="fa fa-envelope"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.github.com/tijeco">
+        <i class="fa fa-github"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.twitter.com/wandering_spider">
+        <i class="fa fa-linkedin"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.twitter.com/wandering_spider">
+        <i class="fa fa-twitter"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+       © Copyright 2018 <i class="fa fa-heart" aria-hidden="true"></i> tijeco
+    
+    </p>
+    
+</footer>
+
+
+        <script src="/js/jquery-2.2.4.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'your_google_analytics_id', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+    </body>
+</html>

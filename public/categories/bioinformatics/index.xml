@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bioinformatics on tijeco</title>
+    <link>/categories/bioinformatics/</link>
+    <description>Recent content in Bioinformatics on tijeco</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 21 Jan 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/bioinformatics/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Popularity of venom</title>
+      <link>/posts/popularvenom/</link>
+      <pubDate>Sun, 21 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/popularvenom/</guid>
+      <description>&lt;p&gt;For a while now I have been enamored by the question of what is venom? It is a fairly nuanced question that will undoubtedly have a nuanced answer, but today I have decided to describe trends in what has been called a venom to this date.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Molecular Evolution Tutorial</title>
+      <link>/posts/molecularevolutiontutorial/</link>
+      <pubDate>Sat, 20 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/molecularevolutiontutorial/</guid>
+      <description>&lt;p&gt;This is a brief rundown of how to conduct tests for positive selection in sequence data using PAML and HYPHY&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

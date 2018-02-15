@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on tijeco</title>
+    <link>/post/</link>
+    <description>Recent content in Posts on tijeco</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 21 Jan 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Popularity of venom</title>
+      <link>/post/venomtrends/</link>
+      <pubDate>Sun, 21 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/venomtrends/</guid>
+      <description>&lt;p&gt;For a while now I have been enamored by the question of &amp;ldquo;what is venom?&amp;rdquo; It is a fairly nuanced question that will undoubtebly have a nuanced answer, but today I have decided to describe  trends in what has been called a &amp;ldquo;venom&amp;rdquo; to this date.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
